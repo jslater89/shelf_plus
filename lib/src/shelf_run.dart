@@ -36,6 +36,7 @@ Future<ShelfRunContext> shelfRun(
   OnStartFailed? onStartFailed,
   OnWillClose? onWillClose,
   OnClosed? onClosed,
+  Set<String>? excludedHotReloadPaths,
 }) async {
   var context = ShelfRunContext(
     onWillClose: onWillClose,
@@ -66,7 +67,8 @@ Future<ShelfRunContext> shelfRun(
         catchDelegate(e);
       }
       return Future.value(context._server);
-    });
+    },
+    excludedPaths: excludedHotReloadPaths);
   } else {
     try {
       final server = await _createServer(
